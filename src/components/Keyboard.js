@@ -3,7 +3,7 @@ import { AppContext } from "../App";
 import Key from "./Key";
 
 const KeyBoard = () => {
-  const { onEnter, onDelete, onSelectLetter } = useContext(AppContext);
+  const { onEnter, onDelete, onSelectLetter, disabledLetters, currAttempt } = useContext(AppContext);
   const keys1 = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
   const keys2 = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
   const keys3 = ["Z", "X", "C", "V", "B", "N", "M"];
@@ -30,7 +30,7 @@ const KeyBoard = () => {
         };
       })
     }
-  },);
+  }, [currAttempt]);
   
   useEffect(() => {
     document.addEventListener('keydown', handleKeyboard);
@@ -46,25 +46,25 @@ const KeyBoard = () => {
       <div className="line1">
         {
           keys1.map(key => {
-            return <Key key={key} keyVal={key}/>
+            return <Key key={key} keyVal={key} disabled={disabledLetters.includes(key)}/>
           })
         }
       </div>
       <div className="line2">
         {
           keys2.map(key => {
-            return <Key key={key} keyVal={key}/>
+            return <Key key={key} keyVal={key} disabled={disabledLetters.includes(key)}/>
           })
         }
       </div>
       <div className="line3">
-        <Key keyVal='Enter' bigKey/>
+        <Key keyVal={'Enter'} bigKey/>
         {
           keys3.map(key => {
-            return <Key key={key} keyVal={key}/>
+            return <Key key={key} keyVal={key} disabled={disabledLetters.includes(key)}/>
           })
         }
-        <Key keyVal='Delete' bigKey/>
+        <Key keyVal={'Delete'} bigKey/>
       </div>
     </div>
   )
